@@ -18,4 +18,14 @@ public class TransferDto {
     private String status;
     private LocalDateTime createdAt;
 
+    public TransferDto(Long fromAccountId,
+                       Long toAccountId,
+                       double amount,
+                       String status) {
+        this.fromAccountId = fromAccountId;
+        this.toAccountId = toAccountId;
+        this.amount = amount;
+        this.status = status;
+        this.createdAt = LocalDateTime.now();
+    }
 }

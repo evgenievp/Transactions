@@ -47,5 +47,6 @@ public class Transfer {
         this.toAccountId = toAccountId;
         this.amount = amount;
         this.status = status;
+        this.createdAt = LocalDateTime.now();
     }
 }
