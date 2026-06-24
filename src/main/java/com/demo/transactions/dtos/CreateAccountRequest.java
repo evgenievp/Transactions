@@ -16,7 +16,7 @@ public class CreateAccountRequest {
     private String iban;
 
     @PositiveOrZero
-    private BigDecimal initialBalance;
+    private BigDecimal initialBalance = BigDecimal.valueOf(5);
 
     public CreateAccountRequest() {
     }

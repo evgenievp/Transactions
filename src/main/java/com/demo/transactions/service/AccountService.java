@@ -9,9 +9,11 @@ import com.demo.transactions.entities.User;
 import com.demo.transactions.repo.AccountRepo;
 import com.demo.transactions.repo.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -79,5 +81,20 @@ public class AccountService {
         account.setBalance(request.getInitialBalance());
         account.setUser(user);
         repo.save(account);
+    }
+
+    @Transactional
+    public void deposit(Long accountId, BigDecimal amount) {
+        Account account = repo.findById(accountId)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        account.deposit(amount);
+    }
+    @Transactional
+    public void withdraw(long id, BigDecimal amount) {
+        Account account = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        account.withdraw(amount);
     }
 }

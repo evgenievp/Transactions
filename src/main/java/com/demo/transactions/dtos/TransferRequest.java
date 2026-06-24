@@ -22,6 +22,14 @@ public class TransferRequest {
     public TransferRequest() {
     }
 
+    public TransferRequest(long fromAccountId,
+                           long toAccountId,
+                           BigDecimal amount) {
+        this.fromAccountId = fromAccountId;
+        this.toAccountId = toAccountId;
+        this.amount = amount;
+    }
+
     public long getFromAccountId() {
         return fromAccountId;
     }

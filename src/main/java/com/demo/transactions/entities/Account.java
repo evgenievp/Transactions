@@ -1,7 +1,6 @@
 package com.demo.transactions.entities;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,27 +26,25 @@ public class Account {
 
     public Account(String iban, BigDecimal balance, User user) {
         this.iban = iban;
-        this.balance = balance;
         this.user = user;
+        this.balance = balance != null ? balance : BigDecimal.ZERO;
     }
 
     public void deposit(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
-
         this.balance = this.balance.add(amount);
     }
 
     public void withdraw(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
 
         if (this.balance.compareTo(amount) < 0) {
             throw new IllegalArgumentException("Insufficient funds");
         }
-
         this.balance = this.balance.subtract(amount);
     }
 }

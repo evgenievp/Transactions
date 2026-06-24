@@ -31,7 +31,7 @@ public class AccountController {
     public ResponseEntity<BalanceResponse> deposit(@PathVariable long id,
                                                    @PathVariable BigDecimal amount) {
         Account account = this.service.findById(id);
-        account.deposit(amount);
+        service.deposit(id, amount);
         return ResponseEntity.status(200).body(new BalanceResponse(id, amount));
     }
 
@@ -39,7 +39,7 @@ public class AccountController {
     public ResponseEntity<BalanceResponse> withdraw(@PathVariable long id,
                                                     @PathVariable BigDecimal amount) {
         Account account = this.service.findById(id);
-        account.withdraw(amount);
+        service.withdraw(id, amount);
         return ResponseEntity.status(200).body(new BalanceResponse(id, amount));
     }
 
@@ -64,6 +64,7 @@ public class AccountController {
     public ResponseEntity<AccountDto> getById(@PathVariable long id) {
         return ResponseEntity.status(200).body(this.service.findDtoById(id));
     }
+
 
 
 
