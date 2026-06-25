@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.RollbackOn;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;
@@ -71,7 +72,7 @@ public class AccountService {
                 account.getBalance(),
                 account.getUser());
     }
-
+    @Transactional(rollbackOn = Exception.class)
     public void createAccount(Long userId, CreateAccountRequest request) {
         User user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -83,14 +84,15 @@ public class AccountService {
         repo.save(account);
     }
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void deposit(Long accountId, BigDecimal amount) {
         Account account = repo.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
         account.deposit(amount);
     }
-    @Transactional
+
+    @Transactional(rollbackOn = Exception.class)
     public void withdraw(long id, BigDecimal amount) {
         Account account = repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found"));

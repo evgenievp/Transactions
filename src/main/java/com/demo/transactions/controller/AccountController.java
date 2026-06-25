@@ -30,7 +30,6 @@ public class AccountController {
     @PostMapping("/{id}/deposit/{amount}")
     public ResponseEntity<BalanceResponse> deposit(@PathVariable long id,
                                                    @PathVariable BigDecimal amount) {
-        Account account = this.service.findById(id);
         service.deposit(id, amount);
         return ResponseEntity.status(200).body(new BalanceResponse(id, amount));
     }
@@ -38,7 +37,6 @@ public class AccountController {
     @PostMapping("/{id}/withdraw/{amount}")
     public ResponseEntity<BalanceResponse> withdraw(@PathVariable long id,
                                                     @PathVariable BigDecimal amount) {
-        Account account = this.service.findById(id);
         service.withdraw(id, amount);
         return ResponseEntity.status(200).body(new BalanceResponse(id, amount));
     }

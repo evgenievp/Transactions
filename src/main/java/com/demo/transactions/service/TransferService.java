@@ -6,8 +6,10 @@ import com.demo.transactions.entities.Account;
 import com.demo.transactions.entities.Transfer;
 import com.demo.transactions.repo.AccountRepo;
 import com.demo.transactions.repo.TransferRepo;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class TransferService {
@@ -21,18 +23,24 @@ public class TransferService {
         this.accountRepo = accountRepo;
     }
 
-    // this transaction has to fail.
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public TransferResponse transfer(TransferRequest request) {
-
         Account from = accountRepo.findById(request.getFromAccountId())
                 .orElseThrow(() -> new RuntimeException("Sender account not found"));
-
         Account to = accountRepo.findById(request.getToAccountId())
                 .orElseThrow(() -> new RuntimeException("Receiver account not found"));
 
-        from.withdraw(request.getAmount());
+        if (from.getId().equals(to.getId())) {
+            throw new RuntimeException("Can't transfer to your own account");
+        }
+        if (request.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("cant transfer zero or negative amount");
+        }
+        if (from.getBalance().compareTo(request.getAmount()) <= 0) {
+            throw new RuntimeException("Insufficient funds");
+        }
 
+        from.withdraw(request.getAmount());
         if (request.isFailAfterWithdraw()) {
             throw new RuntimeException("Simulated failure after withdraw");
         }
