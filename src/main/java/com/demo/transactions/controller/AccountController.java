@@ -3,8 +3,6 @@ package com.demo.transactions.controller;
 import com.demo.transactions.dtos.AccountDto;
 import com.demo.transactions.dtos.BalanceResponse;
 import com.demo.transactions.dtos.CreateAccountRequest;
-import com.demo.transactions.dtos.UserDto;
-import com.demo.transactions.entities.Account;
 import com.demo.transactions.service.AccountService;
 import com.demo.transactions.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
