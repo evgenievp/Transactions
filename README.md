@@ -1,5 +1,8 @@
  Transaction Demo API
 
+ Purpose: This project was created to practice Spring transaction management rather than to build a complete banking application.
+
+
  Overview
 
 This project demonstrates transaction management in Spring Boot using a simple banking scenario.
